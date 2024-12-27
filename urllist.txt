@@ -1,0 +1,6 @@
+# LinkChecker URL list
+https://soc.cyber.wa.gov.au
+https://www.cyber.gov.au
+https://www.wa.gov.au
+https://huma.rocks
+https://fastapi.tiangolo.com
