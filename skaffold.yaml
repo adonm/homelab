@@ -1,0 +1,21 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: homelab
+#build:
+#  artifacts:
+#  - image: build-searchindex
+deploy:
+  helm:
+    releases:
+    - name: release01
+      remoteChart: oci://registry-1.docker.io/bitnamicharts/contour
+      namespace: projectcontour
+      createNamespace: true
+    - name: release02
+      remoteChart: oci://registry-1.docker.io/bitnamicharts/metallb
+      namespace: metallb
+      createNamespace: true
+manifests:
+  rawYaml:
+    - k8s-*.yaml

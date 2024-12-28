@@ -11,12 +11,17 @@ crawl_expiry_hours = os.environ.get("CRAWL_EXPIRY_HOURS", 24)
 
 def create_index(url):
     output = output_path / (slugify(url).replace("https-", "") + ".csv")
+    old = False
     if output.is_file():
-        if datetime.now() - datetime.fromtimestamp(output.stat().st_mtime) < timedelta(hours=crawl_expiry_hours):
+        oldtime = datetime.fromtimestamp(output.stat().st_mtime)
+        if datetime.now() - oldtime < timedelta(hours=crawl_expiry_hours):
             return f"Skipped {url}"
         else:
-            output.rename(output.with_suffix(".old.csv"))
+            old = output.with_suffix(f".{oldtime.isoformat()}.csv")
+            output.rename(old)
     run(["linkchecker", "-F", "csv" / output, "--config", "linkcheckerrc.ini", url])
+    if old and old.is_file():
+        old.unlink()
     return f"Updated {output} recursively from {url}"
 
 def main():
