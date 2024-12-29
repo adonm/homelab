@@ -17,5 +17,8 @@ deploy:
       namespace: metallb
       createNamespace: true
 manifests:
+  kustomize:
+    paths:
+    - kustomize
   rawYaml:
     - k8s-*.yaml
